@@ -1,7 +1,7 @@
 {
   "id": "neobase.monodle",
   "name": "MonogatariDle",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "NDesumeur",
   "description": "Devine un personnage de Monogatari : colonnes comparées, indices, emoji et portrait.",
   "icon": "icon.png",

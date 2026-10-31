@@ -2,11 +2,57 @@
 // Ses données sont dans le dossier du plugin, que NeoBase sauvegarde (synchro cloud et sauvegardes) ; à la première ouverture elle reprend ce que tu avais dans NeoBase.
 // Elle demande l'accès complet pour utiliser les outils d'interface de NeoBase. NeoBase ne l'ouvre que si elle est signée.
 const HTML = "";
+/*CSS-MOVED*/ const CSS = `.mdRow{display:grid;grid-template-columns:repeat(var(--n),46px);gap:6px}
+.mdCell{height:46px;display:grid;place-items:center;font:18px var(--title);color:#fff;background:#160d30;box-shadow:inset 0 0 0 2px #3a2a6e}
+.mdCell.typed{box-shadow:inset 0 0 0 2px var(--lilac)}
+.mdCell.ghost{color:#5e4d85}
+.mdCell.flip{animation:mdFlip .45s both}
+.gSel{width:auto;font-size:14px;padding:6px 10px;margin-right:8px}
+.shGrid td.num{text-align:right}
+.mdClue{display:flex;flex-direction:column;gap:8px}
+.mdHint{--fill:var(--field);padding:10px 14px;color:var(--lilac);font-size:15px}
+.mdEmoji{--fill:var(--field);padding:14px;font-size:34px;letter-spacing:6px;text-align:center}
+.mdForm{position:relative}
+.mdInput{width:100%;font-size:16px;padding:12px 14px}
+.mdSug{position:absolute;left:0;right:0;top:calc(100% + 6px);z-index:5;--fill:#120922;display:flex;flex-direction:column;padding:4px;max-height:340px;overflow-y:auto}
+.mdSugItem{all:unset;cursor:var(--cp,pointer);display:flex;justify-content:space-between;gap:12px;padding:8px 10px;color:#fff;font-size:15px}
+.mdSugItem:hover,.mdSugItem.on{background:rgba(var(--mgr),.22)}
+.mdSugItem .hint{font-size:12px}
+.mdSugItem .n{display:flex;align-items:center;gap:10px}
+.mdSugItem img{width:30px;height:30px;object-fit:cover;object-position:top;box-shadow:0 0 0 2px rgba(0,0,0,.45)}
+.sysCard.mdWin{flex-direction:row;align-items:center;gap:18px}
+.mdWin b{color:#ffd07a;font-size:17px}
+.mdWinTxt{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mdWinImg{width:104px;height:104px;flex:none;object-fit:cover;object-position:top;box-shadow:0 0 0 3px #ffd07a,4px 4px 0 3px rgba(0,0,0,.45)}
+.mdPix{width:240px;height:240px;align-self:center;image-rendering:pixelated;box-shadow:0 0 0 3px var(--field),6px 6px 0 3px rgba(0,0,0,.45)}
+.mdGuesses{display:flex;flex-direction:column;gap:6px;overflow-x:auto}
+.mdRow{display:grid;gap:6px}
+.mdRow.head{position:sticky;top:0}
+.mdH{font:7px var(--title);letter-spacing:1px;color:var(--muted);text-align:center;padding:4px 0}
+.mdCell{display:flex;align-items:center;justify-content:center;gap:4px;min-height:54px;padding:6px;text-align:center;font-size:12px;overflow-wrap:break-word;hyphens:auto;min-width:0;color:#fff;background:#2a1d52;box-shadow:inset 0 -3px 0 rgba(0,0,0,.35);animation:mdFlip .35s steps(4) backwards}
+.mdCell.who{background:#1c1238;font-weight:bold;justify-content:flex-start;gap:8px;text-align:left}
+.mdCell.who img{width:40px;height:40px;flex:none;object-fit:cover;object-position:top;box-shadow:0 0 0 2px rgba(0,0,0,.45)}
+.mdCell.wide img{width:32px;height:32px}
+.mdCell.ok{background:#2f8f5a}
+.mdCell.part{background:#c0862a}
+.mdCell.no{background:#9a2a44}
+.mdCell i{font-style:normal;font-size:18px;color:#ffd07a}
+.mdCell.wide{justify-content:flex-start;padding:10px 14px;min-height:0;font-size:15px}
+.mdRow .mdCell:nth-child(2){animation-delay:.05s}
+.mdRow .mdCell:nth-child(3){animation-delay:.1s}
+.mdRow .mdCell:nth-child(4){animation-delay:.15s}
+.mdRow .mdCell:nth-child(5){animation-delay:.2s}
+.mdRow .mdCell:nth-child(6){animation-delay:.25s}
+.mdRow .mdCell:nth-child(7){animation-delay:.3s}
+.mdRow .mdCell:nth-child(8){animation-delay:.35s}
+.mdRow .mdCell:nth-child(9){animation-delay:.4s}
+`;  // le style de ce plugin (il utilise les variables du thème de NeoBase)
 export default async function (ctx) {
   const view = ctx.view;
   if (!ctx.host) { view.textContent = "Ce plugin doit être approuvé par NeoBase pour s'ouvrir."; return; }
   const host = ctx.host, { el, toast, sfx, ask, newTab, pixIcon, PIX, WX } = host;
   const folder = ctx.folder, legacy = ctx.legacy || {};
+  ctx.host.addStyle(CSS);
   view.innerHTML = HTML;
   const $ = id => id === "dle_monodle" ? view : (view.querySelector('#' + id) || document.getElementById(id));  // les identifiants de ta vue d'abord, puis ceux de la page (fenêtres, menus)
   const doc = async n => { try { return await folder.read(n); } catch { return null; } };
