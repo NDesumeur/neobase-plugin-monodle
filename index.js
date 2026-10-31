@@ -46,6 +46,34 @@ const HTML = "";
 .mdRow .mdCell:nth-child(7){animation-delay:.3s}
 .mdRow .mdCell:nth-child(8){animation-delay:.35s}
 .mdRow .mdCell:nth-child(9){animation-delay:.4s}
+
+/* habillage v1.2 */
+.dleWrap{--dle:#ff5ad9;gap:14px}
+.dleWrap .agHead{padding:14px 18px;background:linear-gradient(90deg,color-mix(in srgb,var(--dle) 32%,#0d0820),transparent 85%);box-shadow:inset 5px 0 0 var(--dle)}
+.dleWrap .agHead .label{font-size:16px;letter-spacing:2px;color:#fff;text-shadow:3px 3px 0 rgba(0,0,0,.55)}
+.dleWrap .agHead .hint{color:color-mix(in srgb,var(--dle) 55%,#fff)}
+.dleWrap .agNav button,.dleWrap .row button{letter-spacing:1px}
+.dleWrap .mdInput{background:#0d0820;border:3px solid var(--dle);box-shadow:0 0 0 3px rgba(0,0,0,.45),0 0 16px color-mix(in srgb,var(--dle) 30%,transparent);transition:box-shadow .15s}
+.dleWrap .mdInput:focus{outline:none;box-shadow:0 0 0 3px rgba(0,0,0,.45),0 0 26px color-mix(in srgb,var(--dle) 60%,transparent)}
+.dleWrap .mdSug{border:3px solid var(--dle);box-shadow:6px 6px 0 rgba(0,0,0,.55)}
+.dleWrap .mdSugItem{padding:6px 10px;border-bottom:1px solid rgba(255,255,255,.07)}
+.dleWrap .mdSugItem img{width:38px;height:38px}
+.dleWrap .mdSugItem:hover,.dleWrap .mdSugItem.on{background:color-mix(in srgb,var(--dle) 28%,transparent)}
+.dleWrap .mdHint,.dleWrap .mdEmoji{box-shadow:inset 4px 0 0 var(--dle),0 0 0 3px rgba(0,0,0,.35)}
+.dleWrap .mdGuesses{gap:8px;padding:6px 0}
+.dleWrap .mdH{background:#160d30;color:#fff;border-bottom:3px solid var(--dle);padding:7px 2px;font-size:7px}
+.dleWrap .mdRow{gap:6px}
+.dleWrap .mdRow:not(.head) .mdCell{font-weight:bold;text-shadow:1px 1px 0 rgba(0,0,0,.5);box-shadow:inset 0 3px 0 rgba(255,255,255,.2),inset 0 -4px 0 rgba(0,0,0,.4),0 0 0 2px rgba(0,0,0,.55)}
+.dleWrap .mdCell.who{background:linear-gradient(#2a1d52,#1c1238);border-left:4px solid var(--dle)}
+.dleWrap .mdCell.who img{width:46px;height:46px;box-shadow:0 0 0 2px var(--dle),3px 3px 0 2px rgba(0,0,0,.5)}
+.dleWrap .mdCell.ok{background:linear-gradient(#45c27b,#2f8f5a)}
+.dleWrap .mdCell.part{background:linear-gradient(#e8aa42,#c0862a)}
+.dleWrap .mdCell.no{background:linear-gradient(#cc3f5e,#9a2a44)}
+.dleWrap .mdCell.wide{font-size:16px}
+.dleWrap .sysCard.mdWin{background:linear-gradient(135deg,#34265f,#160d30);border:3px solid #ffd07a;box-shadow:0 0 0 3px #000,0 0 30px rgba(255,208,122,.35);padding:16px}
+.dleWrap .mdWinImg{width:124px;height:124px}
+.dleWrap .mdWin b{font-size:19px;text-shadow:3px 3px 0 rgba(0,0,0,.5)}
+.dleWrap .mdPix{box-shadow:0 0 0 3px var(--dle),6px 6px 0 3px rgba(0,0,0,.5)}
 `;  // le style de ce plugin (il utilise les variables du thème de NeoBase)
 export default async function (ctx) {
   const view = ctx.view;
@@ -245,6 +273,7 @@ function dleRegister(g) {
   const v = $('dle_' + g.key) || el('div', 'appView'), w = el('div', 'appWrap'), head = el('div', 'agHead'), nav = el('div', 'agNav');
   if (!v.id) { v.id = 'dle_' + g.key; $('musicApp').before(v); }
   v.append(w);
+  w.classList.add('dleWrap'); w.style.setProperty('--dle', '#7fe0ee');  // la couleur de la série
   const u = g.ui = {mode: 'classic', daily: true, info: el('span', 'hint'), dailyBtn: el('button', 'btn px', 'DÉFI DU JOUR'), freeBtn: el('button', 'btn px', 'PARTIE LIBRE'), pool: el('select', 'f gSel'), newBtn: el('button', 'btn px', 'NOUVELLE PARTIE'),
     modes: el('div', 'row'), clue: el('div', 'mdClue'), form: el('div', 'mdForm'), input: el('input', 'f mdInput'), sug: el('div', 'mdSug px'), win: el('div', 'sysCard px mdWin'), guesses: el('div', 'mdGuesses')};
   u.pool.title = 'Personnages possibles en partie libre';
