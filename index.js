@@ -127,7 +127,7 @@ const dleSave = g => gstore(g.key, {days: {}, stats: {}, free: null, pool: 'main
 const dlePool = (g, p) => g.chars.filter(c => c.t <= (g.pools[p] || g.pools.main).t);
 const dleFits = (c, mode) => mode === 'emoji' ? !!c.em : mode === 'image' ? !!c.img : mode === 'hints' ? c.h.length > 0 : true;
 function dleDaily(g, mode, day = dleDay()) {  // the same character for everyone on a given day, among the main pool
-  const pool = dlePool(g, 'main').filter(c => dleFits(c, mode));
+  const pool = dlePool(g, 'all').filter(c => dleFits(c, mode));
   return pool[dleHash(g.key + ':' + mode + ':' + day) % pool.length];
 }
 function dleState(g, mode, daily) {  // the game being played: today's challenge of this mode, or the free game
@@ -172,7 +172,7 @@ function dleRender(g) {
   u.dailyBtn.classList.toggle('main', u.daily); u.freeBtn.classList.toggle('main', !u.daily);
   u.pool.value = s.pool; u.pool.disabled = u.daily;
   const stats = s.stats[u.mode];
-  u.info.textContent = (u.daily ? 'Défi du jour · ' : 'Partie libre · ' + g.pools[s.pool].l + ' · ') + dlePool(g, u.daily ? 'main' : s.pool).filter(c => dleFits(c, u.mode)).length + ' personnages'
+  u.info.textContent = (u.daily ? 'Défi du jour · ' : 'Partie libre · ' + g.pools[s.pool].l + ' · ') + dlePool(g, u.daily ? 'all' : s.pool).filter(c => dleFits(c, u.mode)).length + ' personnages'
     + (stats ? ' · série ' + stats.streak + ' (record ' + stats.bestStreak + ') · ' + stats.wins + ' / ' + stats.played + ' gagnées' : '');
   // what the mode shows before the guesses
   const top = u.clue; top.replaceChildren();
@@ -227,7 +227,7 @@ function dleGuess(g, name) {
 }
 function dleSuggest(g) {
   const u = g.ui, q = dleNorm(u.input.value), st = dleState(g, u.mode, u.daily);
-  const pool = dlePool(g, u.daily ? 'main' : dleSave(g).pool).filter(c => !st.guesses.includes(c.n) && dleFits(c, u.mode));
+  const pool = dlePool(g, u.daily ? 'all' : dleSave(g).pool).filter(c => !st.guesses.includes(c.n) && dleFits(c, u.mode));
   const hits = q ? pool.filter(c => (c.key ||= dleNorm([c.n, c.n.split(' ').reverse().join(' '), c.jp, ...(c.al || [])].join(' '))).includes(q)).slice(0, 8) : [];
   u.sug.replaceChildren(...hits.map((c, i) => {
     const b = el('button', 'mdSugItem' + (i === u.sel ? ' on' : '')), name = el('span', 'n');
