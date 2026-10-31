@@ -1,0 +1,9 @@
+{
+  "pluginId": "neobase.monodle",
+  "repo": "NDesumeur/neobase-plugin-monodle",
+  "version": "1.0.0",
+  "sha256": "1f6085d9e502102d7307f91ed926dea9a9e7cc9801f99b3170d9ee4e09ab69b9",
+  "approvedAt": "2026-10-31T16:39:32.081Z",
+  "neobase": ">=4.0.0",
+  "signature": "/qZ45aSDbeFXg0bshf/nYCMmAlRwZcxAwBUWWoWSZJoE0uVrjdRh4Qd5+lphIhBbdkUYNH8u+B/nDNfLvMjmBA=="
+}
