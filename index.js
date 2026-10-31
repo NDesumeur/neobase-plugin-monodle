@@ -11,6 +11,9 @@ export default async function (ctx) {
   const $ = id => id === "dle_monodle" ? view : (view.querySelector('#' + id) || document.getElementById(id));  // les identifiants de ta vue d'abord, puis ceux de la page (fenêtres, menus)
   const doc = async n => { try { return await folder.read(n); } catch { return null; } };
   const __icon = () => ctx.icon;  // l'icône de ce plugin
+  const __asset = async (rel, type) => URL.createObjectURL(new Blob([Uint8Array.from(atob(await neo.pluginFileRead(ctx.id, rel)), c => c.charCodeAt(0))], { type }));  // un fichier livré avec le plugin
+  const __imgs = {};  // les portraits livrés avec le plugin
+  await Promise.all(["black-hanekawa.webp","crabe-de-poids-omoshi-kani.webp","deathtopia-virtuoso-suicide-master.webp","deishuu-kaiki.webp","dramaturgy.webp","episode.webp","guillotinecutter.webp","hitagi-senjougahara.webp","izuko-gaen.webp","jagirinawa.webp","kako.webp","karen-araragi.webp","koyomi-araragi.webp","kuchinawa.webp","mayoi-hachikuji.webp","meme-oshino.webp","meniko-hamukai.webp","mere-de-hitagi.webp","mere-de-koyomi.webp","mere-de-nadeko.webp","mizudori.webp","nadeko-sengoku.webp","ougi-oshino.webp","pere-de-hitagi.webp","pere-de-mayoi.webp","pere-de-nadeko.webp","rainy-devil.webp","rouka-numachi.webp","rousokuzawa.webp","sasayabu.webp","seishirou-shishirui.webp","seiu-higasa.webp","shide-no-tori.webp","shinobu-oshino.webp","sodachi-oikura.webp","suruga-kanbaru.webp","tadatsuru-teori.webp","tooe-gaen.webp","tropicalesque-home-a-wave-dog-strings.webp","tsubasa-hanekawa.webp","tsukihi-araragi.webp","tsunade.webp","yotsugi-ononoki.webp","yozuru-kagenui.webp"].map(async n => { __imgs[n] = await __asset('img/' + n, /.png$/.test(n) ? 'image/png' : /.webp$/.test(n) ? 'image/webp' : 'image/jpeg'); }));
   const LEGACY_GAMES = {"top":["monodle"],"best":"^$"};
   let games = await doc('games');
   if (games == null) {  // première ouverture : tu retrouves tes records et tes parties d'avant
@@ -54,7 +57,7 @@ const DLE_GENDER = {F: 'Femme', M: 'Homme', V: 'Variable', N: 'Aucun', '?': 'Inc
 const dleDay = (d = new Date()) => d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
 const dleHash = s => { let h = 2166136261; for (const c of s) h = Math.imul(h ^ c.charCodeAt(0), 16777619); return h >>> 0; };
 const dleNorm = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9぀-鿿]+/g, ' ').trim();
-const dleImg = (g, c) => c.img ? 'dle/img/' + g.dir + '/' + c.img : '';
+const dleImg = (g, c) => c.img ? (__imgs[c.img] || '') : '';
 
 /* ---------- comparing a guess with the answer, column by column ---------- */
 function dleCompare(g, guess, ans) {
