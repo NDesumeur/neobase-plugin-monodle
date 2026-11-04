@@ -1,6 +1,6 @@
 {
-  "pluginId": "neobase.monodle",
-  "repo": "NDesumeur/neobase-plugin-monodle",
+  "pluginId": "neodex.monodle",
+  "repo": "NDesumeur/neodex-plugin-monodle",
   "version": "1.2.0",
   "sha256": "775f3ba1ba3003ee6e074982c353067af7e10fd48ee1ab8f6c7dc6dbe64bad0a",
   "approvedAt": "2026-10-31T23:25:06.372Z",
