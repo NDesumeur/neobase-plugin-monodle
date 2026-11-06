@@ -10,6 +10,8 @@
   "neobase": ">=4.0.0",
   "type": "app",
   "category": "NeoDle",
+  "syncMode": "progression",
+  "syncInfo": "Série, statistiques, partie du jour.",
   "mobile": false,
   "system": false,
   "dependencies": {},
